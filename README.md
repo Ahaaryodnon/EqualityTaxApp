@@ -95,7 +95,6 @@ Once the stack is healthy:
 | Name | Example | Description |
 |------|---------|-------------|
 | `DATABASE_URL` | `postgresql://user:pass@db:5432/ineq` | TimescaleDB connection |
-| `S3_ENDPOINT`  | `http://minio:9000` | Object storage |
 | `FORBES_API_KEY` | `sk_live_…` | Optional—licensed Forbes snapshot |
 | `PLAYWRIGHT_BROWSERS_PATH` | `/ms-playwright` | Re‑used container cache |
 
