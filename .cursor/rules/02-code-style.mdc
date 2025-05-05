@@ -1,0 +1,48 @@
+
+---
+description: Coding style, linting and architectural guidelines
+globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
+---
+
+# Coding Style Guide
+
+## Python
+* Formatter: **Black** (`--line-length 120`)
+* Linter: **Ruff** (`target-version = "py312"`)
+* Type‑checker: **MyPy** strict mode
+* Libraries:
+  * **SQLAlchemy 2** ORM (declarative)
+  * **Pydantic v2** for models
+  * **Async** I/O (`asyncpg`, `httpx`)
+* Testing: **Pytest** + **pytest‑asyncio**
+
+### File Template
+```python
+"""<module summary>"""
+
+from __future__ import annotations
+
+import logging
+
+logger = logging.getLogger(__name__)
+```
+
+## TypeScript / React
+* Compiler: **t‑tsconfig/strictest**
+* Formatter: **Prettier** default
+* Linter: **ESLint** (airbnb + react‑hooks/recommended)
+* Components: **Functional** + hooks; no classes
+* State: **tRPC + TanStack Query**; avoid Redux
+* Tests: **Vitest** & **React Testing Library**
+
+## Commit Messages
+Use **Conventional Commits**:
+* `feat: add MP register spider`
+* `fix: correct dividend yield calc`
+
+## PR Checklist
+- [ ] Unit & integration tests pass
+- [ ] Lint & type‑check pass
+- [ ] Docs updated (README / GraphQL docs)
+- [ ] No sensitive data committed
+---

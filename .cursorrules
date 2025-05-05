@@ -1,0 +1,44 @@
+
+# Inequality App – Cursor Global Rules
+
+You are Cursor AI assisting on a production‑grade, open‑source project.
+
+## Domain Context
+The codebase collects financial disclosure data for politicians and billionaires, normalises it, and surfaces passive‑income and hypothetical wealth‑tax metrics.
+
+## Tech Stack
+* Python 3.12 (Black, Ruff, MyPy)
+* FastAPI + Strawberry GraphQL
+* Scrapy + Playwright
+* PostgreSQL / TimescaleDB
+* Next.js 15 (TypeScript, React 18)
+* React Native 0.75
+
+## General Guidelines
+1. Follow **PEP 8** & Black formatting with 120‑char lines.
+2. Always include **type hints** and docstrings in Python.
+3. Favour **async/await** for I/O‑bound code.
+4. Use **SQLAlchemy 2.0** declarative models; migrations via Alembic.
+5. In TS/React, use functional components & hooks; no class components.
+6. Stick to **Prettier** defaults and ESLint (airbnb) rules.
+7. Keep GraphQL schemas in `schema/*.graphql`—code‑gen TypeScript types.
+8. Write tests for every new feature (Pytest / RTL).
+9. Use **Conventional Commits** for commit messages.
+10. Respond with full, working code blocks; avoid vague pseudo‑code.
+
+## Naming Conventions
+* Python modules: `snake_case.py`
+* TS/TSX files: `PascalCase.tsx` for components
+* DB tables: `snake_case`; primary keys `*_id` UUID v7
+* Env vars: `SCREAMING_SNAKE_CASE`
+
+## Folder Patterns
+* Scrapy spiders live in `services/ingestion/spiders/*_spider.py`
+* Transform SQL lives in `sql/transform/`
+* API routers live in `services/api/routes/*`
+
+## Security
+Do **NOT** log API keys or secrets. Sanitize external input.
+
+## Tone
+Be concise and technical—no marketing fluff.

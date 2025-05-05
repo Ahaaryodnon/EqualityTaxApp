@@ -1,0 +1,52 @@
+
+---
+description: High‑level project context and domain knowledge for Inequality App
+globs: ["**/*"]
+---
+
+# Project Context
+
+*Purpose*: Give Cursor AI awareness of the business problem and upstream data sources so it can generate accurate code and explanations.
+
+**Problem Statement**  
+Users want to compare the passive income of wealthy individuals with how much they would pay under a 1 % wealth tax above £2 million.
+
+**Key Entities**
+| Entity | Description |
+|--------|-------------|
+| `Person` | Politician or billionaire uniquely identified by external IDs (MP ID, Forbes slug, SEC CIK). |
+| `Asset` | Equity stake, property, bond, or other income‑producing holding. |
+| `Cashflow` | Point‑in‑time record of passive income (dividend, rent, interest, royalty). |
+| `Valuation` | Net‑worth snapshot used to weight cash‑flow estimates. |
+
+**External Sources**
+* UK Parliament Register CSV  
+* Companies House REST API  
+* EDGAR XBRL JSON  
+* Forbes "real‑time billionaires" JSON  
+* Land Registry price‑paid CSVs
+
+**Derived Metrics**
+* `passive_income_y` – calendar‑year sum of cash‑flows  
+* `wealth_tax_1pc_y` – `MAX(0, (net_worth - 2_000_000) * 0.01)`
+
+**Design Constraints**
+* Data provenance must be auditable → keep raw downloads.  
+* Scrapy spiders must pass `black` + `ruff --select=E,F`.  
+* Postgres UUID v7 primary keys.  
+* API responses capped at 100 items; pagination via Relay‑style cursors.
+
+**Example Query**
+```graphql
+{
+  person(slug: "elon‑musk") {
+    name
+    passiveIncome(year: 2024) {
+      amountGBP
+      wealthTax1pc
+    }
+  }
+}
+```
+
+---
