@@ -355,3 +355,6 @@ terraform.rc
 clients/web/.next/*
 
 clients/web/package-lock.json
+services/api/app/__pycache__/__init__.cpython-310.pyc
+services/api/app/__pycache__/main.cpython-310.pyc
+db/init-airflow-db.sql

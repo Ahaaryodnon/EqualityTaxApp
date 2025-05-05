@@ -33,3 +33,5 @@ dbt-postgres
 pyyaml
 
 # Add any other direct dependencies below
+strawberry-graphql
+pydantic-settings
