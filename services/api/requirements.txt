@@ -1,21 +1,35 @@
-fastapi==0.111.0
-uvicorn==0.27.0
-pydantic==2.6.1
-sqlalchemy==2.0.27
-psycopg2-binary==2.9.9
-alembic==1.13.1
-strawberry-graphql==0.219.1
-asyncpg==0.29.0
-python-dotenv==1.0.1
-pytest==7.4.3
-pytest-asyncio==0.23.2
-httpx==0.26.0
-black==24.1.1
-ruff==0.2.1
-mypy==1.8.0
-scrapy==2.11.0
-playwright==1.40.0
-airbyte==0.6.0
-pandas==2.1.4
-dbt-postgres==1.7.2
-pydantic-settings==2.1.0 
+# Essential web framework and server
+fastapi
+uvicorn
+
+# Database and ORM
+sqlalchemy
+psycopg2-binary
+alembic
+asyncpg
+
+# Environment and testing
+python-dotenv
+pytest
+pytest-asyncio
+
+# Linting and formatting
+black
+ruff
+mypy
+
+# Data and scraping (if needed)
+pandas
+scrapy
+playwright
+
+# Airbyte and dbt (loosened constraints)
+airbyte
+# dbt-postgres pulls dbt-core and dbt-semantic-interfaces
+# Let pip resolve compatible versions
+dbt-postgres
+
+# YAML support
+pyyaml
+
+# Add any other direct dependencies below
