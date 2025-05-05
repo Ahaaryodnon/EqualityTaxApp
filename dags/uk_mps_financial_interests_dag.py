@@ -31,9 +31,10 @@ dag = DAG(
 run_spider = BashOperator(
     task_id="run_uk_register_spider",
     bash_command=(
+        "mkdir -p /tmp/uk_mps && "
         "cd /app/services/ingestion && "
         "scrapy crawl uk_register_of_interests "
-        "-o s3://{{ var.value.s3_bucket }}/raw/uk_mps/register_of_interests_{{ ds }}.json"
+        "-o /tmp/uk_mps/register_of_interests_{{ ds }}.json"
     ),
     dag=dag,
 )
@@ -50,56 +51,41 @@ def check_data_quality(**kwargs):
         bool: True if data quality checks pass
     """
     import json
-    import boto3
-    from botocore.client import Config
+    import os
 
-    # Get connection details from Airflow variables
-    s3_endpoint = kwargs["var"]["value"]["s3_endpoint"]
-    s3_access_key = kwargs["var"]["value"]["s3_access_key"]
-    s3_secret_key = kwargs["var"]["value"]["s3_secret_key"]
-    s3_bucket = kwargs["var"]["value"]["s3_bucket"]
-    
-    # Connect to S3
-    s3 = boto3.client(
-        "s3",
-        endpoint_url=s3_endpoint,
-        aws_access_key_id=s3_access_key,
-        aws_secret_access_key=s3_secret_key,
-        config=Config(signature_version="s3v4"),
-    )
-    
-    # Download the scraped data
     ds = kwargs["ds"]
-    key = f"raw/uk_mps/register_of_interests_{ds}.json"
-    
+    file_path = f"/tmp/uk_mps/register_of_interests_{ds}.json"
+
+    if not os.path.exists(file_path):
+        raise Exception(f"Scraped data file not found: {file_path}")
+
     try:
-        response = s3.get_object(Bucket=s3_bucket, Key=key)
-        content = response["Body"].read().decode("utf-8")
-        data = json.loads(content)
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
     except Exception as e:
         raise Exception(f"Failed to read scraped data: {e}")
-    
+
     # Perform data quality checks
     person_items = [item for item in data if "full_name" in item]
     interest_items = [item for item in data if "person_name" in item and "type" in item]
-    
+
     # Check if we have at least some MPs and interests
     if len(person_items) < 10:
         raise Exception(f"Too few MPs found: {len(person_items)}")
-    
+
     if len(interest_items) < 50:
         raise Exception(f"Too few interests found: {len(interest_items)}")
-    
+
     # Check for required fields in person items
     for item in person_items:
         if not item.get("full_name") or not item.get("parliament_id"):
             raise Exception(f"Missing required fields in person item: {item}")
-    
+
     # Check for required fields in interest items
     for item in interest_items:
         if not item.get("person_name") or not item.get("type"):
             raise Exception(f"Missing required fields in interest item: {item}")
-    
+
     return True
 
 
