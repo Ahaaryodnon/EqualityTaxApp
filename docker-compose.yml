@@ -7,13 +7,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=inequality
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init-airflow-db.sql:/docker-entrypoint-initdb.d/init-airflow-db.sql
 
   api:
     build:
@@ -86,4 +87,4 @@ services:
 
 volumes:
   postgres_data:
-  minio_data: 
+  minio_data:
