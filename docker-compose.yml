@@ -16,6 +16,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init-airflow-db.sql:/docker-entrypoint-initdb.d/init-airflow-db.sql
 
+
   api:
     build:
       context: ./services/api
@@ -24,7 +25,7 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/inequality
+      - DATABASE_URL=postgresql://postgres:postgres@localhost:5432/inequality
       - S3_ENDPOINT=http://minio:9000
     volumes:
       - ./services/api:/app

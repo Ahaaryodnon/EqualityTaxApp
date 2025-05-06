@@ -11,11 +11,11 @@ class Settings(BaseSettings):
     """
 
     # Database
-    DATABASE_URL: str
+    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/inequality"
 
     # API configurations
     API_PREFIX: str = "/api"
-    DEBUG: bool = False
+    DEBUG: bool = True
     PROJECT_NAME: str = "Inequality App API"
     VERSION: str = "0.1.0"
 
@@ -23,11 +23,6 @@ class Settings(BaseSettings):
     FORBES_API_KEY: Optional[str] = None
     COMPANIES_HOUSE_API_KEY: Optional[str] = None
 
-    # S3-compatible storage
-    S3_ENDPOINT: str
-    S3_ACCESS_KEY: str
-    S3_SECRET_KEY: str
-    S3_BUCKET: str = "inequality-data"
 
     # CORS
     CORS_ORIGINS: str = "*"

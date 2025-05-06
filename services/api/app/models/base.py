@@ -22,7 +22,7 @@ class BaseModel(Base):
     id = Column(
         UUID(as_uuid=True),
         primary_key=True,
-        default=uuid.uuid7,
+        default=uuid.uuid5,
         index=True,
     )
     created_at = Column(DateTime, default=datetime.now, nullable=False)

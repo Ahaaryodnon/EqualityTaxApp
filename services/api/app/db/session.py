@@ -36,7 +36,7 @@ async def init_db() -> None:
     # Only create tables in development mode
     if settings.DEBUG:
         async with engine.begin() as conn:
-            # await conn.run_sync(Base.metadata.drop_all)
+            await conn.run_sync(Base.metadata.drop_all)
             await conn.run_sync(Base.metadata.create_all)
 
 

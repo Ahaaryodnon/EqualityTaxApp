@@ -361,3 +361,5 @@ services/api/app/__pycache__/__init__.cpython-310.pyc
 services/api/app/__pycache__/main.cpython-310.pyc
 db/init-airflow-db.sql
 >>>>>>> 70d0365d1e71966cd80b297aad8a793ec6715b65
+services/api/app/__pycache__/__init__.cpython-310.pyc
+services/api/app/__pycache__/main.cpython-310.pyc
