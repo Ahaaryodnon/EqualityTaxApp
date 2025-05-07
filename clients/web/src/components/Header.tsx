@@ -1,86 +1,84 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Menu } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { ThemeToggle } from "./theme-toggle"
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Politicians', href: '/politicians' },
-  { name: 'Billionaires', href: '/billionaires' },
-  { name: 'About', href: '/about' },
-];
+  { name: "Home", href: "/" },
+  { name: "Politicians", href: "/politicians" },
+  { name: "Billionaires", href: "/billionaires" },
+  { name: "About", href: "/about" },
+]
 
-const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
+export default function Header() {
+  const [open, setOpen] = React.useState(false)
+  const pathname = usePathname()
 
   return (
-    <header className="bg-white shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-2xl font-bold text-indigo-600">
-                Inequality App
-              </Link>
-            </div>
-            <nav className="hidden md:ml-6 md:flex md:space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium h-16 ${
-                    router.pathname === item.href
-                      ? 'border-indigo-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-2 md:gap-4">
+          <Link href="/" className="flex items-center">
+            <span className="text-xl font-bold text-primary">Inequality App</span>
+          </Link>
 
-          <div className="-mr-2 flex items-center md:hidden">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-              aria-expanded={isMenuOpen}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <span className="sr-only">Open main menu</span>
-              {isMenuOpen ? (
-                <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="pt-2 pb-3 space-y-1">
+          <nav className="hidden md:flex md:gap-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                  router.pathname === item.href
-                    ? 'border-indigo-500 text-indigo-700 bg-indigo-50'
-                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-                }`}
-                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  pathname === item.href ? "text-primary" : "text-muted-foreground",
+                )}
               >
                 {item.name}
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
-      )}
-    </header>
-  );
-};
 
-export default Header; 
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" className="h-9 w-9 p-0">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <div className="grid gap-6 py-6">
+                <Link href="/" className="text-xl font-bold text-primary" onClick={() => setOpen(false)}>
+                  Inequality App
+                </Link>
+                <div className="grid gap-3">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={cn(
+                        "text-sm font-medium transition-colors hover:text-primary",
+                        pathname === item.href ? "text-primary" : "text-muted-foreground",
+                      )}
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  )
+}
