@@ -21,7 +21,8 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
-    "lucide-react": "^0.268.0" 
+    "lucide-react": "^0.268.0",
+    "shadcn":  "^2.0.0"
 
   },
   "devDependencies": {
