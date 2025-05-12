@@ -7,7 +7,7 @@ import { Menu } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "./theme-toggle"
 
 const navigation = [
@@ -54,7 +54,7 @@ export default function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <div className="absolute right-0 top-16 w-64 bg-white shadow-md">
               <div className="grid gap-6 py-6">
                 <Link href="/" className="text-xl font-bold text-primary" onClick={() => setOpen(false)}>
                   Inequality App
@@ -75,7 +75,7 @@ export default function Header() {
                   ))}
                 </div>
               </div>
-            </SheetContent>
+            </div>
           </Sheet>
         </div>
       </div>

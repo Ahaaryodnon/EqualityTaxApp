@@ -10,7 +10,7 @@ import Layout from "@/components/layout"
 import PersonCard from "@/components/person-card"
 import SearchBar from "@/components/search-bar"
 import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/skeleton"
 
 // GraphQL query to fetch top politicians with highest passive income
 const GET_TOP_POLITICIANS = gql`
